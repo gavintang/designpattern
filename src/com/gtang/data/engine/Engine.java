@@ -2,8 +2,9 @@
 package com.gtang.data.engine;
 
 import com.gtang.data.diagnostic.DiagnosticTool;
+import com.gtang.pattern.visitor.Visitable;
 
-public interface Engine {
+public interface Engine extends Visitable {
 
     public int getSize ();
     public boolean isTurbo ();

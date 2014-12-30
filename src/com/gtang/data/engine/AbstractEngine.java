@@ -2,6 +2,10 @@
 package com.gtang.data.engine;
 
 import com.gtang.data.diagnostic.DiagnosticTool;
+import com.gtang.pattern.visitor.Camshaft;
+import com.gtang.pattern.visitor.EngineVisitor;
+import com.gtang.pattern.visitor.Piston;
+import com.gtang.pattern.visitor.SparkPlug;
 
 public abstract class AbstractEngine implements Engine {
 
@@ -9,6 +13,10 @@ public abstract class AbstractEngine implements Engine {
     private boolean turbo;
     private boolean running;
     private int power;
+    
+    private Camshaft camshaft;
+    private Piston piston;
+    private SparkPlug[] sparkPlugs;
 
     public AbstractEngine (int size, boolean turbo) {
 
@@ -16,6 +24,10 @@ public abstract class AbstractEngine implements Engine {
         this.turbo = turbo;
         this.running = false;
         this.power = 0;
+        
+        camshaft = new Camshaft();
+        piston = new Piston();
+        sparkPlugs = new SparkPlug[] {new SparkPlug(), new SparkPlug(), new SparkPlug(), new SparkPlug()};
     }
 
     @Override
@@ -26,6 +38,18 @@ public abstract class AbstractEngine implements Engine {
     @Override
     public boolean isTurbo () {
         return turbo;
+    }
+    
+    public void acceptEngineVisitor(EngineVisitor visitor) {
+        
+        camshaft.acceptEngineVisitor(visitor);
+        piston.acceptEngineVisitor(visitor);
+        
+        for(SparkPlug aSparkPlug : sparkPlugs) {
+            aSparkPlug.acceptEngineVisitor(visitor);
+        }
+        
+        visitor.visit(this);
     }
     
     @Override

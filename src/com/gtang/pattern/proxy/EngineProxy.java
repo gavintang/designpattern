@@ -4,6 +4,7 @@ import com.gtang.data.diagnostic.DiagnosticTool;
 import com.gtang.data.engine.Engine;
 import com.gtang.data.engine.StandardEngine;
 import com.gtang.data.engine.TurboEngine;
+import com.gtang.pattern.visitor.EngineVisitor;
 
 public class EngineProxy implements Engine {
 	
@@ -67,5 +68,11 @@ public class EngineProxy implements Engine {
 	}
 	
 	private Engine engine;
+
+    @Override
+    public void acceptEngineVisitor (EngineVisitor visitor) {
+        
+        engine.acceptEngineVisitor(visitor);
+    }
 	
 }
